@@ -28,6 +28,25 @@ export const getCurrentProfile = () => dispatch => {
     );
 };
 
+// Get current education
+export const getCurrentEducation = () => dispatch => {
+
+  axios
+    .get('/api/profile')
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      })
+    );
+};
+
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
   axios

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Login from '../../components/auth/Login';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../../components/layout/Layout';
 
 class LoginPage extends Component {
     render() {

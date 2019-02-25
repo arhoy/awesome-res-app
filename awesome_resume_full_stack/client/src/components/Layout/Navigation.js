@@ -19,8 +19,47 @@ class Navigation extends Component {
         this.setState({isOpen:!this.state.isOpen});
     }
     render() {
-        console.log(this.state.isOpen);
         const { user, isAuthenticated } = this.props.auth;
+        let displayName;
+        if (user && user.name ) { displayName = user.name.split(' ')[0]; }
+        
+        const guestLinks = (
+            <ul className="navigation__list">
+                <li> <Link to = "/posts" className = "navigation__link">Daily Feed</Link> </li>
+                <li> <Link to = "/login" className = "navigation__link">Login</Link> </li>
+                <li> <Link to = "/register" className = "navigation__link">Create Account</Link> </li>
+                <li> <Link to = "/about-us" className = "navigation__link" >About Us</Link></li>
+            </ul>   
+        )
+
+        const authLinks = (
+            <ul className="navigation__list">
+                <li> <Link to = "/dashboard" className = "navigation__link">{ `${displayName}'s `} Dashboard</Link> </li>
+                <li> <Link to = "/posts" className = "navigation__link" >Posts</Link> </li>
+                <li> <Link to = "/" className = "navigation__link" >Shop By</Link> </li>
+                <li> <Link to = "/" className = "navigation__link" >Your Account</Link> </li>
+                <li> <Link to = "/" className = "navigation__link" >Contact Us</Link> </li>
+                <li className="">
+                <a
+                    href=""
+                    onClick={this.logoutUserHandler.bind(this)}
+                    className="navigation__link"
+                >
+                    <img
+                    className="rounded-circle"
+                    src={user.avatar}
+                    alt={user.name}
+                    style={{ width: '25px', marginRight: '5px' }}
+                    title=""
+                    />{' '}
+                    Logout
+                </a>
+                </li>
+            </ul>   
+        )
+
+
+
         return (
                 <div className="navigation">
                     <input type="checkbox" className="navigation__checkbox" id="navi-toggle"/>
@@ -28,35 +67,16 @@ class Navigation extends Component {
                     <label onClick = { this.onNavToggleHandler.bind(this)} htmlFor="navi-toggle" className="navigation__button">
                         <span className="navigation__icon">&nbsp;</span>
                     </label>
+                    
 
                     {
                         this.state.isOpen ? 
                         <React.Fragment>
                             <div className="navigation__background">&nbsp;</div>
                             <nav className="navigation__nav">
-                                <ul className="navigation__list">
-                                    <li> <Link to = "/" className = "navigation__link">Daily Feed</Link> </li>
-                                    <li> <Link to = "/" className = "navigation__link" >About Us</Link> </li>
-                                    <li> <Link to = "/" className = "navigation__link" >Articles</Link> </li>
-                                    <li> <Link to = "/" className = "navigation__link" >Create Account</Link> </li>
-                                    <li> <Link to = "/" className = "navigation__link" >Contact Us</Link> </li>
-                                    <li className="">
-                                    <a
-                                        href=""
-                                        onClick={this.logoutUserHandler.bind(this)}
-                                        className="navigation__link"
-                                    >
-                                        <img
-                                        className="rounded-circle"
-                                        src={user.avatar}
-                                        alt={user.name}
-                                        style={{ width: '25px', marginRight: '5px' }}
-                                        title="You must have a Gravatar connected to your email to display an image"
-                                        />{' '}
-                                        Logout
-                                    </a>
-                                    </li>
-                                </ul>
+                               {
+                                   isAuthenticated ? authLinks : guestLinks
+                               }
                             </nav>
                         </React.Fragment>
                         

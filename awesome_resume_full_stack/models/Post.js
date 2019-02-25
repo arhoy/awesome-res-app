@@ -27,7 +27,7 @@ const PostSchema = new Schema({
             }
         }
     ],
-    comments:[
+    replies:[
         {
             user:{
                 type: Schema.Types.ObjectId,
@@ -47,7 +47,15 @@ const PostSchema = new Schema({
             date:{
                 type:Date,
                 default:Date.now
-            }
+            },
+            likes : [
+                {
+                    user:{
+                        type: Schema.Types.ObjectId,
+                        ref:'users'
+                    }
+                }
+            ]
         }
     ]
 });

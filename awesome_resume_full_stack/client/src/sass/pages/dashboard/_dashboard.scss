@@ -3,6 +3,7 @@
     background:$trello-blue-200;
     font-size: $default-font-size;
     color:$trello-blue-900;
+    min-height: 100vh;
 }
 
 .dashboard {
@@ -28,6 +29,7 @@
     &__links li{
         background-color: $color-white;
         padding: 1rem;
+        cursor: pointer;
         &:hover{
             background-color: $color-grey-light-2;
         }
@@ -45,6 +47,26 @@
         font-size: 1.8rem;
          color: $color-black;
     }
-
-
 }
+.dashboard__experience, .dashboard__education {
+    padding: 2rem 0;
+}
+
+.dashboard__details {
+    padding: 2rem 1rem;
+    margin: 2rem 0rem;
+    border-radius: 5px;
+    border: 1px solid $color-white-faded;
+    background-color: $slate-blue-dark;
+    color: $color-white;
+}
+.dashboard__detail {
+    &-1 {
+        color:$color-white-faded;
+    }
+}
+
+.dashboard__addEducation, .dashboard__addExperience {
+  margin: 1.0rem 0rem;
+}
+

@@ -121,9 +121,12 @@ router.post(
     const profileFields = {};
     profileFields.user = req.user.id;
     if (req.body.handle) profileFields.handle = req.body.handle;
+    if (req.body.headline) profileFields.headline = req.body.headline;
     if (req.body.company) profileFields.company = req.body.company;
     if (req.body.website) profileFields.website = req.body.website;
-    if (req.body.location) profileFields.location = req.body.location;
+    if (req.body.country) profileFields.country = req.body.country;
+    if (req.body.city) profileFields.city = req.body.city;
+    if (req.body.headline) profileFields.city = req.body.headline;
     if (req.body.bio) profileFields.bio = req.body.bio;
     if (req.body.status) profileFields.status = req.body.status;
     if (req.body.githubusername)
@@ -201,22 +204,28 @@ router.post(
   }
 );
 
+
 // @route   POST api/profile/education
-// @desc    Add education to profile
+// @desc    Add/Edit education to profile
 // @access  Private
 router.post(
   '/education',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { errors, isValid } = validateEducationInput(req.body);
-
+    
     // Check Validation
     if (!isValid) {
       // Return any errors with 400 status
       return res.status(400).json(errors);
     }
 
-    Profile.findOne({ user: req.user.id }).then(profile => {
+    //get fields
+    const educationFields = {};
+    educationFields.user = req.user.id
+
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
       const newEdu = {
         school: req.body.school,
         degree: req.body.degree,
@@ -230,8 +239,11 @@ router.post(
       // Add to exp array
       profile.education.unshift(newEdu);
 
-      profile.save().then(profile => res.json(profile));
-    });
+      profile.save()
+        .then(profile => res.json(profile))
+        .catch(err => res.status(404).json({ profile: 'Not able to save education for user' }) )
+     })
+    .catch(err => res.status(404).json({ profile: 'Unable to find user!' }) )
   }
 );
 

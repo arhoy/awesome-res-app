@@ -1,4 +1,5 @@
 .btn {
+    z-index: 100;
     &,
     &:link,
     &:visited {
@@ -36,6 +37,7 @@
     &-2 {
         border-radius: 5px;
         padding: .75rem 1rem;
+        text-decoration: none;
     }
     
     &--white {
@@ -63,16 +65,23 @@
         &::after {
             background-color: $color-secondary;
         }
+    }
+    &--blue {
+        background-color: $trello-blue-200;
+        color: $color-white;
+        transition: all 1s ease-in;
+        &:hover{
+             background-color: $trello-blue-500;
+        }
 
-        &:hover {
-            box-shadow: none;
-            transform: translateY(0px);
-            background-color:filter(20%);
-             &::after {
-             transform: scaleX(1.05) scaleY(1.05);
-             opacity: 1;
-             background-color: darken($color-secondary,10%);
-            }
+    }
+    &--red {
+    background-color: $trello-red-50;
+    color: $trello-blue-900;
+    transition: all 0.2s ease-in;
+        &:hover{
+                background-color: $trello-red-500;
+                color:white;
         }
     }
     
@@ -111,7 +120,7 @@
         background-color: $color-primary;
         color: $color-white;
         box-shadow: 0 1rem 2rem rgba($color-black, .15);
-        transform: translateY(-2px);
+        transform: translateY(-1px);
     }
 
     &:active {

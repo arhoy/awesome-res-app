@@ -3,12 +3,13 @@ const isEmpty = require('./is-empty');
 
 // handle, status, skills are the only required fields.
 
-module.exports = function validateProfileInput(data) {
+const validateProfileInput = (data) => {
   let errors = {};
 
   data.handle = !isEmpty(data.handle) ? data.handle : '';
   data.status = !isEmpty(data.status) ? data.status : '';
   data.skills = !isEmpty(data.skills) ? data.skills : '';
+  data.country = !isEmpty(data.country) ? data.country : '';
 
   if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
     errors.handle = 'Handle needs to between 2 and 4 characters';
@@ -18,12 +19,23 @@ module.exports = function validateProfileInput(data) {
     errors.handle = 'Profile handle is required';
   }
 
+  if (!isEmpty(data.headline)) {
+    if (!Validator.isLength(data.headline, {max:140})) {
+      console.log('data headline', data.headline)
+      errors.headline = 'Headline must not exceed 140 characters!';
+    }
+  }
+
   if (Validator.isEmpty(data.status)) {
     errors.status = 'Status field is required';
   }
 
   if (Validator.isEmpty(data.skills)) {
     errors.skills = 'Skills field is required';
+  }
+
+  if (Validator.isEmpty(data.country)) {
+    errors.country = 'Country field is required';
   }
 
   if (!isEmpty(data.website)) {
@@ -67,3 +79,5 @@ module.exports = function validateProfileInput(data) {
     isValid: isEmpty(errors)
   };
 };
+
+module.exports = validateProfileInput;

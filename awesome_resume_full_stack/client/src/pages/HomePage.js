@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/layout/Layout';
 import Header from '../components/landing/Header';
 import Register from '../components/auth/Register';
 

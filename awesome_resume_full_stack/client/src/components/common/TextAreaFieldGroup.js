@@ -10,12 +10,13 @@ const TextAreaFieldGroup = ({
   info,
   onChange,
   cols,
-  rows
+  rows,
+  className
 }) => {
   return (
     <div className="form__group">
       <textarea
-        className= "form__textarea"
+        className= {className}
         placeholder={placeholder}
         name={name}
         value={value}
@@ -25,13 +26,18 @@ const TextAreaFieldGroup = ({
       />
       <div>
         {info && <small className="form__info">{info}</small>}
-        {error && <div className="invalid-feedback">{error}</div>}
+        {error && <div className="form__error">{error}</div>}
       </div>
     
     </div>
   );
 };
 
+TextAreaFieldGroup.defaultProps = {
+  className: 'form__textarea',
+  cols: 10,
+  rows: 3
+}
 TextAreaFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,

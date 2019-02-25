@@ -12,6 +12,19 @@
 @import "components/register";
 @import "components/login";
 
+@import "components/tables/dashboardTable";
+
+@import "components/posts/posts";
+@import "components/posts/postItem";
+@import "components/posts/postOptions";
+@import "components/posts/postForm";
+@import "components/posts/postEditForm";
+@import "components/posts/replies/replies";
+@import "components/posts/replies/replyForm";
+@import "components/posts/replies/replyItem";
+
+@import "errors/errors";
+
 @import "layout/footer";
 @import "layout/grid";
 @import "layout/header";
@@ -19,5 +32,7 @@
 @import "layout/layout";
 
 @import "pages/home";
-@import "pages/dashboard";
-@import "pages/profile/createProfile";
+@import "pages/dashboard/dashboard";
+@import "pages/dashboard/createProfile";
+@import "pages/dashboard/addCredentials";
+@import "pages/profile/profile";

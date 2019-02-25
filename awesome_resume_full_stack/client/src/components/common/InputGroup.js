@@ -26,7 +26,7 @@ const InputGroup = ({
         value={value}
         onChange={onChange}
       />
-      {error && <div className="invalid-feedback">{error}</div>}
+      {error && <div className="form__error">{error}</div>}
     </div>
   );
 };

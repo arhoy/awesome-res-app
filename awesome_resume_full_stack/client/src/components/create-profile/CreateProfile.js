@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
-import { createProfile } from '../../actions/profileActions';
-
+import { createProfile, getCurrentProfile } from '../../actions/profileActions';
+import isEmpty from '../../validation/is-empty';
 class CreateProfile extends Component {
  
     state = {
       displaySocialInputs: false,
       handle: '',
+      headline:'',
       company: '',
       website: '',
-      location: '',
+      city: '',
+      country: '',
       status: '',
       skills: '',
       githubusername: '',
@@ -28,20 +30,31 @@ class CreateProfile extends Component {
       errors: {}
     }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+  componentDidMount() {
+      this.props.getCurrentProfile();
+   }
+
+  static getDerivedStateFromProps (props, state) {
+    if(props.errors !== state.errors) {
+    return {errors: props.errors}
     }
-  }
+    if(!isEmpty(props.profile.profile) ) {
+      console.log(props.profile.profile);
+      props.history.push('/edit-profile');
+    }
+    return null;
+}
 
   onSubmitHandler(e) {
     e.preventDefault();
 
     const profileData = {
       handle: this.state.handle,
+      headline: this.state.headline,
       company: this.state.company,
       website: this.state.website,
-      location: this.state.location,
+      city: this.state.city,
+      country: this.state.country,
       status: this.state.status,
       skills: this.state.skills,
       githubusername: this.state.githubusername,
@@ -123,14 +136,12 @@ class CreateProfile extends Component {
 
     // Select options for status
     const options = [
-      { label: '* Select Professional Status', value: 0 },
-      { label: 'Developer', value: 'Developer' },
-      { label: 'Junior Developer', value: 'Junior Developer' },
-      { label: 'Senior Developer', value: 'Senior Developer' },
-      { label: 'Manager', value: 'Manager' },
-      { label: 'Student or Learning', value: 'Student or Learning' },
-      { label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
-      { label: 'Intern', value: 'Intern' },
+      { label: '* Select Career Status', value: 0 },
+      { label: 'Student/Intern', value: 'Student/Intern' },
+      { label: 'Entry Level', value: 'Entry Level' },
+      { label: 'Starting Career ( 1 to 5 years )', value: 'Starting Career' },
+      { label: 'Mid Career/ Established', value: 'Established' },
+      { label: 'Late Career/ Seasoned', value: 'Late Career' },
       { label: 'Other', value: 'Other' }
     ];
 
@@ -138,17 +149,22 @@ class CreateProfile extends Component {
       <div className = "section-createProfile">
           <div className="createProfile">
             <div className = "createProfile__header"> 
+
+             <div>
+              <Link className = "btn-2 btn--blue" to = "/dashboard"> Back to Dashboard </Link> 
+              </div>
+              
               <h2 className = "heading-secondary" style = {{color:'#0C3953'}}>Create Your Profile</h2>
             </div>
              
                 <form className = "createProfile__form" onSubmit={this.onSubmitHandler.bind(this)}>
                   <TextFieldGroup
-                    placeholder="* Profile Handle"
+                    placeholder="* Your username/handle"
                     name="handle"
                     value={this.state.handle}
                     onChange={this.onChangeHandler.bind(this)}
                     error={errors.handle}
-                    info="A unique handle for your profile URL. Your full name, company name, nickname"
+                    info="A unique name for your profile URL. ie.name / business"
                   />
                   <SelectListGroup
                     placeholder="Status"
@@ -157,7 +173,17 @@ class CreateProfile extends Component {
                     onChange={this.onChangeHandler.bind(this)}
                     options={options}
                     error={errors.status}
-                    info="Give us an idea of where you are at in your career"
+                    info="How far are you in your career?"
+                  />
+                   <TextAreaFieldGroup
+                     placeholder="Headline: i.e React developer at CraveJs"
+                    name="headline"
+                    value={this.state.headline}
+                    onChange={this.onChangeHandler.bind(this)}
+                    error={errors.headline}
+                    info="Insert attention grabbing headline!"
+                    cols="90"
+                    rows = "3"
                   />
                   <TextFieldGroup
                     placeholder="Company"
@@ -165,7 +191,7 @@ class CreateProfile extends Component {
                     value={this.state.company}
                     onChange={this.onChangeHandler.bind(this)}
                     error={errors.company}
-                    info="Could be your own company or one you work for"
+                    info="Your company or the one you work work"
                   />
                   <TextFieldGroup
                     placeholder="Website"
@@ -173,16 +199,25 @@ class CreateProfile extends Component {
                     value={this.state.website}
                     onChange={this.onChangeHandler.bind(this)}
                     error={errors.website}
-                    info="Could be your own website or a company one"
+                    info="Your website or a company one"
                   />
                   <TextFieldGroup
-                    placeholder="Location"
-                    name="location"
-                    value={this.state.location}
+                    placeholder="Country"
+                    name="country"
+                    value={this.state.country}
                     onChange={this.onChangeHandler.bind(this)}
-                    error={errors.location}
-                    info="City or city & state suggested (eg. Boston, MA)"
+                    error={errors.country}
+                    info=""
                   />
+                  <TextFieldGroup
+                    placeholder="City"
+                    name="city"
+                    value={this.state.city}
+                    onChange={this.onChangeHandler.bind(this)}
+                    error={errors.city}
+                    info=""
+                  />
+              
                   <TextFieldGroup
                     placeholder="* Skills"
                     name="skills"
@@ -201,7 +236,7 @@ class CreateProfile extends Component {
                     info="If you want your latest repos and a Github link, include your username"
                   />
                   <TextAreaFieldGroup
-                    placeholder="Short Bio"
+                    placeholder="Short Summary of yourself"
                     name="bio"
                     value={this.state.bio}
                     onChange={this.onChangeHandler.bind(this)}
@@ -254,6 +289,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { createProfile })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
   withRouter(CreateProfile)
 );

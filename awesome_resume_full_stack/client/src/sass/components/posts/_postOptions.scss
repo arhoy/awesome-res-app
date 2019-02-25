@@ -1,0 +1,19 @@
+.PostOptions {
+    position:absolute;
+    display:grid;
+    background-color:$color-white;
+    padding: 1rem;
+    top:17px;
+    right:0;
+    z-index: 100;
+    &__editPost, &__deletePost {
+        border:none;
+        outline:none;
+        margin: 1rem 0rem;
+        padding: 0.5rem 1rem;
+        cursor:pointer;
+    }
+    &__disappear {
+        z-index: -1;
+    }
+}

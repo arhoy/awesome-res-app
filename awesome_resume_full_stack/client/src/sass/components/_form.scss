@@ -117,12 +117,17 @@
         display:block;
         width: 100%;
         margin: 0 auto;
+        margin-top: 1rem;
            @include respond(tab-port) {
              width: 100%;
         }
     }
     &__error{
-        color: $color-red;
+        color: $trello-red-900;
+        margin: 1rem;
+        padding: 0.5rem 1.5rem;
+        background-color: $trello-red-100;
+        border-radius: 10px;
         font-size: 1.5rem;
         font-weight: 800;
         letter-spacing: 1px;
@@ -143,6 +148,12 @@
 
     &__textarea {
         display: block;
+        font-size: 1.6rem;
+        font-family: inherit;
+        color: inherit;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .7);
         border: 1px solid #888; 
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -151,6 +162,9 @@
         margin: 0 auto;
             @include respond(tab-port) {
              width: 100%;
+        }
+        &-grey {
+            background-color: $fb-grey;
         }
     }
 }

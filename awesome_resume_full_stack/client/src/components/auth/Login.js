@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import TextFieldGroup from '../common/TextFieldGroup';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import { loginUser ,clearErrors } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -18,10 +19,12 @@ class Login extends Component {
         if(this.props.auth.isAuthenticated){
             this.props.history.push('/dashboard');
         }
+        this.props.clearErrors();
     }
     
 
     static getDerivedStateFromProps (props, state) {
+        console.log(state);
         if(props.errors !== state.errors) {
         return {errors: props.errors}
         }
@@ -93,10 +96,16 @@ class Login extends Component {
         );
     }
 }
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  };
 
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors
   });
 
-export default connect(mapStateToProps, { loginUser })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser, clearErrors })(withRouter(Login));

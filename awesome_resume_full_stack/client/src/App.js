@@ -18,9 +18,21 @@ import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
 import CreateProfilePage from './pages/CreateProfilePage'
+import EditProfilePage from './pages/EditProfilePage';
+
+
+import AddEducationPage from './pages/addEditCredentials/AddEducationPage';
+import AddExperiencePage from './pages/addEditCredentials/AddExperiencePage';
+import EditEducationPage from './pages/addEditCredentials/EditEducationPage';
+
+import ProfilePage from './pages/profiles/ProfilePage';
+import PostsPage from './pages/posts/PostsPage';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEnvelope, faKey, faThumbsUp, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
 import './sass/main.scss';
-
+library.add(faEnvelope, faKey, faThumbsUp,faEllipsisH);
 
 
 // Check for token
@@ -52,8 +64,17 @@ class App extends Component {
         <React.Fragment>
         <Switch>
           <PrivateRoute exact path="/dashboard" component={DashboardPage} />
+
           <PrivateRoute exact path="/create-profile" component={CreateProfilePage} />
+          <PrivateRoute exact path="/edit-profile" component={EditProfilePage} />
+
+          <PrivateRoute exact path="/add-education" component={AddEducationPage} />
+          <PrivateRoute exact path="/edit-education" component={EditEducationPage} />
+          <PrivateRoute exact path="/add-experience" component={AddExperiencePage} />
+        
           <Route exact path = "/login" component = {LoginPage}/>
+          <Route exact path = "/posts" component = {PostsPage}/>
+          <Route exact path = "/profile/:handle" component = {ProfilePage}/>
           <Route exact path = "/register" component = {RegisterPage}/>
           <Route exact path = "/" component = {HomePage}/>
         </Switch>
