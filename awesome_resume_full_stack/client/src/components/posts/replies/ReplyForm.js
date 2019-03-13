@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
 import { addReply, getPosts } from '../../../actions/postActions';
 import PropTypes from 'prop-types';
+import isEmpty from '../../../validation/is-empty';
 
 
 class ReplyForm extends Component {
@@ -30,7 +31,6 @@ class ReplyForm extends Component {
         }
         console.log('I replied');
         this.props.addReply(id,newReply);
-        this.props.getPosts();
         this.setState({text:''});
         
      
@@ -46,7 +46,7 @@ class ReplyForm extends Component {
                <form className = "ReplyForm__form" onSubmit={ (e)=> this.onSubmitHandler(e,postItem._id) }>
                   <div className="form__group">
                     <TextAreaFieldGroup
-                      placeholder="Add a reply..."
+                      placeholder= { isEmpty(errors.replyErrors) ? 'Add a reply...' : errors.replyErrors.text}
                       name="text"
                       value={this.state.text}
                       onChange={ (e)=> this.onChangeHandler(e)}

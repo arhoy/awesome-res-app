@@ -5,7 +5,8 @@ import {
     DELETE_POST,
     ADD_POST,
     LIKE_POST,
-    GET_REPLIES
+    GET_REPLIES,
+    GET_REPLY
   } from '../actions/types';
   
 
@@ -44,6 +45,18 @@ export default function ( state = initialState, action ){
             return { 
                 ...state,
                 posts: state.posts.filter( post => post._id !== action.payload )
+            }
+
+        case GET_REPLY: 
+        // get reply action.payload has a postId and a replyObj.
+            const postIndex = state.posts.map( item => item._id.toString() ).indexOf(action.payload.postId);
+            console.log(action.payload);
+            console.log(postIndex);
+            const post = state.posts[postIndex];
+        
+            return {
+                ...state,
+                 post: post.replies.filter( reply => reply._id === action.payload.replyObj._id) 
             }
         case GET_REPLIES:
             return {

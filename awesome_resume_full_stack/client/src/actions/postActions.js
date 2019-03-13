@@ -7,9 +7,12 @@ import {
     DELETE_POST,
     ADD_POST,
     GET_ERRORS,
+    GET_POST_ERRORS,
+    GET_REPLY_ERRORS,
     CLEAR_ERRORS,
     LIKE_POST,
     ADD_REPLY,
+    GET_REPLY,
     GET_REPLIES
   } from '../actions/types';
 
@@ -26,14 +29,15 @@ export const addPost = (postData) => dispatch => {
     )
     .catch( err =>
         dispatch({
-            type:GET_ERRORS,
+            type:GET_POST_ERRORS,
             payload: err.response.data
         })
     );
     dispatch(getPosts());
 
 }
-export const addEditPost = (id,postData,history) => dispatch => {
+
+export const addEditPost = (id,postData) => dispatch => {
     dispatch(clearErrors());
     axios
         .post(`/api/posts/${id}`,postData)
@@ -52,9 +56,10 @@ export const addEditPost = (id,postData,history) => dispatch => {
                 payload: err.response.data
             })
         );
-    
-  
 }
+
+
+
 
 
 
@@ -77,7 +82,7 @@ export const addReply = (postId, replyData) => dispatch => {
         )
         .catch( err =>
             dispatch({
-                type:GET_ERRORS,
+                type:GET_REPLY_ERRORS,
                 payload: err.response.data
             })
         );
@@ -124,6 +129,47 @@ export const getPost = id => dispatch => {
 
 }
 
+// populate the replies.
+export const getReply = (postId,replyId) => dispatch => {
+    axios
+        .post(`/api/posts/${postId}/${replyId}`)
+        .then( res =>
+            dispatch({
+                type: GET_REPLY,
+                payload:res.data
+            })
+    
+        )
+        .catch( err =>
+            dispatch({
+                type:GET_REPLY,
+                payload: null
+            })
+        );
+}
+
+
+// add edit post reply
+export const addEditPostReply = (postId,replyId,postData) => dispatch => {
+    axios
+        .post(`/api/posts/reply/${postId}/${replyId}`,postData)
+    
+        .then(  res => 
+            dispatch({
+                type: GET_REPLY,
+                payload:res.data
+            })
+        )
+        .then( 
+            res => dispatch(getPosts())
+        )
+        .catch( err =>
+            dispatch({
+                type:GET_REPLY,
+                payload: err.response.data
+            })
+        );
+}
 
 
 

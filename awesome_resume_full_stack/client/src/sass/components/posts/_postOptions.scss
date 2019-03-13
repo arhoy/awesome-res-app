@@ -3,9 +3,12 @@
     display:grid;
     background-color:$color-white;
     padding: 1rem;
-    top:17px;
+    top:21px;
     right:0;
     z-index: 100;
+    @include respond(tab-port) {
+        top:17px;
+    }
     &__editPost, &__deletePost {
         border:none;
         outline:none;

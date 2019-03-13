@@ -82,6 +82,8 @@ router.post( '/:id',passport.authenticate('jwt', { session: false }),(req, res) 
 
 
 
+
+
 // @route GET api/posts
 // @desc Get all the posts READ ONLY
 // @access Public
@@ -180,7 +182,7 @@ router.post('/like/:id',passport.authenticate('jwt',{session:false}), (req,res) 
         Profile.findOne({user:req.user.id})
             .then(profile =>{
                 Post.findById(req.params.id)
-                    .then(post =>{
+                    .then(post => {
                         // handle the likes to a post.
                         if(post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
                             return res.status(400).json({alreadyLiked:'User has already liked this post!'})
@@ -359,6 +361,122 @@ router.delete('/reply/:id/:reply_id',passport.authenticate('jwt',{session:false}
 
         .catch(err=> res.status(404).json({postnotfound:'No post found'}));
 })
+
+
+
+// @route ADD and save changes... Edit Post reply POST api/posts/reply/:postId/:replyId
+// @access Private
+router.post( '/reply/:postId/:replyId',passport.authenticate('jwt', { session: false }),(req, res) => {
+
+    const { errors, isValid } = validatePostInput(req.body);
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+   
+    // Get fields
+    const replyFields = {};
+ 
+    replyFields.user = req.user.id;
+    if (req.body.text) replyFields.text = req.body.text;
+    if (req.body.name) replyFields.name = req.body.name;
+    if (req.user.avatar) replyFields.avatar = req.user.avatar;
+  
+    
+    Profile.findOne({ user: req.user.id })
+        .then(profile => {
+          
+            if(profile.user.toString() !== req.user.id){
+                return res.status(401).json({msg:'Access denied, this user is not allowed to edit this post'});
+            }
+            if(!req.params.postId){ // pass this in for a new post.
+                return res.status(400).json({'msg':'postId not found'})
+                // Post.findByIdAndUpdate(
+                //     req.params.id,
+                //     { $set: replyFields },
+                //     { new: true }
+                // )
+                // .then(post => res.json(post))
+                // .catch(err => res.status(400).json({msg:'Could not update the profile'}))
+            }
+            // find specific post and reply within the post.
+            Post.findById(req.params.postId)
+                .then(post => {
+                    
+                    if( post.replies.filter( reply => reply._id.toString() === req.params.replyId).length === 0 ) {
+                        // reply does not exsist
+                        return  res.status(404).json({replynotexist:'reply does not exist'});
+                       
+                        
+                    }
+                    
+                    const findReplyIndex = post.replies.map( item => item._id.toString() ).indexOf(req.params.replyId);
+                    const postReply = post.replies[findReplyIndex];
+                    // update the text.
+                    postReply.text = req.body.text;
+                    const postReplyReturn = {
+                        postId: req.params.postId,
+                        replyObj: postReply
+                    }
+                  
+                    
+                    post.save()
+                        .then( () => console.log('saved'))
+                        .catch(err => res.status(400).json({msg:'Reply not saved'}))       
+                    // return the specific reply 
+                    return res.status(200).json(postReplyReturn)
+                
+                })
+                .catch(err => res.status(400).json({msg:'Post not found'}))
+          
+            
+    
+    })
+}); // router posts reply end
+
+
+
+
+
+
+// @route Grab Edit Post reply POST api/posts/:postId/:replyId
+// @access Private
+router.post( '/:postId/:replyId',passport.authenticate('jwt', { session: false }),(req, res) => {
+    
+    Profile.findOne({ user: req.user.id })
+        .then(profile => {
+          
+            if(profile.user.toString() !== req.user.id){
+                return res.status(401).json({msg:'Access denied, this user is not allowed to edit this post'});
+            }
+            if(!req.params.postId){ // pass this in for a new post.
+                return res.status(400).json({'msg':'postId not found'})
+            
+            }
+            // find specific post and reply within the post.
+            Post.findById(req.params.postId)
+                .then(post => {
+                    
+                    if( post.replies.filter( reply => reply._id.toString() === req.params.replyId).length === 0 ) {
+                        // reply does not exsist
+                        return  res.status(404).json({replynotexist:'reply does not exist'}); 
+                    }
+                    
+                    const findReplyIndex = post.replies.map( item => item._id.toString() ).indexOf(req.params.replyId);
+                    const postReply = post.replies[findReplyIndex];
+                    const postReplyReturn = {
+                        postId: req.params.postId,
+                        replyObj: postReply
+                    }
+                        
+                    return res.status(200).json(postReplyReturn)
+          
+                })
+                .catch(err => res.status(400).json({msg:'Post not found'}))
+    })
+}); // router posts reply end
+
 
 
 

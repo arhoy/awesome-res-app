@@ -6,6 +6,7 @@ import { addReplyLike, removeReplyLike, deleteReply } from '../../../actions/pos
 import moment from 'moment';
 import Modal from 'react-modal';
 import classnames from 'classnames';
+import ReplyEditForm from './ReplyEditForm';
 
 const customStyles = {
     overlay:{
@@ -84,7 +85,7 @@ class ReplyItem extends Component {
 
     findUserLike = (likes) => { 
       const { auth } = this.props;
-      console.log(likes);
+     
       if( likes && likes.length > 0){
         if ( likes.filter( like => like.user === auth.user.id).length > 0) {
             return true;
@@ -102,62 +103,57 @@ class ReplyItem extends Component {
     render() {
         const { reply, postId } = this.props;
         const {likes} = this.props.reply;
-        console.log(likes.length);
      
         return (
     
             <div className = "ReplyItem">
 
+                {
+                    this.state.showOptions ?
+                        <div>
+                                <div className= {classnames('PostOptions',{'PostOptions__disappear':this.state.modalIsOpen})} >
+                                    <button className = "PostOptions__editPost"  onClick={this.openModal.bind(this)}>Edit Reply</button>
+                                    <button className = "PostOptions__deletePost" onClick={this.deleteReplyHandler.bind(this,postId,reply._id)}>Delete Reply</button>
+                                </div>
+                                
+                                <Modal
+                                isOpen={this.state.modalIsOpen}
+                                onRequestClose={this.closeModal}
+                                style={customStyles}
+                                contentLabel="ReplyForm Modal"
+                                >
+                                    <ReplyEditForm postId = {postId} replyId = {reply._id}/>
+                                
+                                </Modal>
+                        </div>
+                            : null   
+                }  
 
-                    {
-                        this.state.showOptions ?
-                            <div>
-                                    <div className= {classnames('PostOptions',{'PostOptions__disappear':this.state.modalIsOpen})} >
-                                        <button className = "PostOptions__editPost"  onClick={this.openModal.bind(this)}>Edit Post</button>
-                                        <button className = "PostOptions__deletePost" onClick={this.deleteReplyHandler.bind(this,postId,reply._id)}>Delete Post</button>
-                                    </div>
-                                  
-                                    <Modal
-                                    isOpen={this.state.modalIsOpen}
-                                    onRequestClose={this.closeModal}
-                                    style={customStyles}
-                                    contentLabel="Example Modal"
-                                    >
-                                        {/* <PostEditForm postId = {post._id}/> */}
-                                        <div>FIACK</div>
-                                    </Modal>
-                            </div>
-                             : null   
-                    }  
-
-
-                    <div className = "ReplyItem__content">
-                          <span className = "ReplyItem__name">{reply.name}</span> {reply.text}
-                          <div className = "ReplyItem__toolbar">
-                            <button className = "ReplyItem__ellipses" onClick  = { this.onToolBar.bind(this,reply._id) } >
-                                    <FontAwesomeIcon
-                                        icon="ellipsis-h"
-                                        style = {{color:`${this.findUserLike(this.props.reply.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
-                                    />
-                            </button>      
-                          </div>
-                          <span className = "ReplyItem__likes">
-                            <button className = "ReplyItem__like" onClick = {this.onLikeClick.bind(this,postId,reply._id)} >
+                <div className = "ReplyItem__content">
+                        <span className = "ReplyItem__name">{reply.name}</span> {reply.text}
+                        <div className = "ReplyItem__toolbar">
+                        <button className = "ReplyItem__ellipses" onClick  = { this.onToolBar.bind(this,reply._id) } >
                                 <FontAwesomeIcon
-                                    icon="thumbs-up"
+                                    icon="ellipsis-h"
                                     style = {{color:`${this.findUserLike(this.props.reply.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
                                 />
-                            </button>
-                          </span> 
-                          <span className = "ReplyItem__countLikes">
-                                <span className = "ReplyItem__countLike">{likes.length}</span> 
-                          </span> 
-                     
+                        </button>      
+                        </div>
+                        <span className = "ReplyItem__likes">
+                        <button className = "ReplyItem__like" onClick = {this.onLikeClick.bind(this,postId,reply._id)} >
+                            <FontAwesomeIcon
+                                icon="thumbs-up"
+                                style = {{color:`${this.findUserLike(this.props.reply.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
+                            />
+                        </button>
+                        </span> 
+                        <span className = "ReplyItem__countLikes">
+                            <span className = "ReplyItem__countLike">{likes.length}</span> 
+                        </span> 
+                </div>
 
-                    </div>    
             </div>
 
-  
         );
     }
 }

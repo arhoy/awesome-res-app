@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { registerUser, clearErrors } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
 
+
+
 class Register extends Component {
  
     state = {
@@ -48,11 +50,15 @@ class Register extends Component {
         };
     
          this.props.registerUser(newUser, this.props.history);
-
+   
       }
+
+
 
     render() {
         const { errors } = this.state;
+        const { signUpSuccess } = this.props.auth;
+     
         return (
             <section className="section-register">
                 <div className="row">
@@ -106,6 +112,12 @@ class Register extends Component {
                             <div className="form__group">
                                 <button type = "submit" className="btn btn--primary">Create My Account</button>
                             </div>
+                          {
+                              signUpSuccess ? 
+                              <div className = "register__success"> Signup success!</div>:
+                              null
+                          }
+            
                         </form>
                         <p className = "form__info"> Already have an account? Sign in <Link className = "form__link" to = "/login"> Here </Link></p>
                       </div>

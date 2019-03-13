@@ -13,6 +13,10 @@
     background:$trello-blue-200;
     justify-items:center;
     color:$trello-blue-900;
+    font-size: 1.6rem;
+    &__loading {
+        font-size: 2.7rem;
+    }
     &__user {
         font-size: 3rem;
         color: $color-grey-light-2;

@@ -23,7 +23,7 @@ class PostEditForm extends Component {
         // if (nextProps.errors) {
         //   this.setState({ errors: nextProps.errors });
         // }
-        console.log('JUNGARY FUCKING ASION',nextProps);
+        console.log('These are the next props',nextProps)
         if(nextProps.post.post){
             const post = nextProps.post.post;
 

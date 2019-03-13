@@ -60,4 +60,11 @@ url(/img/register.jpg);
         }
       
     }
+    &__success {
+        font-size: 2.1rem;
+        font-weight: 600;
+        background-color: $trello-blue-50;
+        color: $trello-blue-900;
+        padding: 1rem 2rem;
+    }
 }

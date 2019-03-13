@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 import Experience from './Experience';
 import Education from './Education';
 import Posts from '../posts/Posts';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 
 class Dashboard extends Component {
@@ -25,9 +26,15 @@ class Dashboard extends Component {
             const { profile, loading } = this.props.profile;
        
             let dashboardContent;
-            if(profile === null || loading ){
+            if(profile == null || loading ){
               dashboardContent = ( 
-                  <div className = "dashboard__loading">Loading Profile...</div>
+                <React.Fragment>
+                    <div className = "dashboard__loading">Loading Profile...</div>
+                      <LoadingSpinner
+                        bgColor = '#eee'
+                      />
+                </React.Fragment>
+                 
               )
             }
             else {
@@ -103,6 +110,7 @@ class Dashboard extends Component {
 
                     
                         <button className = "btn btn-2 btn--blue" onClick = {this.deleteAccountHandler}>Delete Account</button>
+                   
                     </React.Fragment>
                   )
               }

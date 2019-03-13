@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS,INITIAL_SIGNUP_SUCCESS } from './types';
 
 // Clear errors
 export const clearErrors = () => {
@@ -16,7 +16,16 @@ export const registerUser = (userData, history) => dispatch => {
   dispatch(clearErrors());
   axios
     .post('/api/users/register', userData)
-    .then(res => history.push('/login'))
+    .then(res => {
+      dispatch ({
+        type: INITIAL_SIGNUP_SUCCESS,
+        payload:true
+      })
+        setTimeout(function () {
+          // after 2 seconds
+          window.location = "/login";
+      }, 2000)
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

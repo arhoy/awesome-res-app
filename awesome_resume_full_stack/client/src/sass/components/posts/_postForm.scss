@@ -4,27 +4,60 @@
             [full-start] 1fr 
             [center-start] repeat(8, [col-start] minmax(min-content,1fr) [col-end] ) 
             [center-end] 1fr [full-end];
+
     background-color:$trello-blue-500;
     color: $color-black;
     padding: 2rem 1rem;
     &__form {
         grid-column: center-start/ center-end;
-        position: relative;
+
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: max-content 1fr;
+        grid-row-gap: 2rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+        
+        
+    }
+    &__textarea {
+        grid-column: 1/-1;
+        grid-row: 1/2;
     }
     &__button {
-        position: absolute;
-        display: inline-block;
-        bottom:-1rem;
-        right: 0rem;
+ 
+        grid-row: 2/3;
+        display:flex;
+        justify-self: flex-end;
         background-color: $fb-grey;
+        display: inline-block;
+        padding: 1rem 2rem;
         border:none;
         outline:none;
-        padding: 0.5rem 1rem;
         cursor: pointer;
         border-radius: 5px;
         &:hover {
             background-color: darken($fb-grey,5%);
         }
       
+    }
+    &__postLimitExceeded, &__postCharacterCount{
+       
+        display: inline-block;
+        text-align: center;
+        display: flex;
+        justify-self: center;
+        align-self: center;
+       
+      
+    }
+    &__message {
+        grid-row: 2/3;
+        color: $color-white;
+        width: 100%;
+        height: 100%;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: flex-end;
     }
 }

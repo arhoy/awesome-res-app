@@ -1,52 +1,86 @@
-.header {
-    height: 85vh;
-    background-image: linear-gradient(
-        to right bottom,
-        rgba($color-primary-light, 0.8),
-        rgba($color-primary-dark, 0.8)),
-    url(/img/landing.jpg);
-    background-size: cover;
-    background-position: top;
-    position: relative;
+.Header {
+    display:grid;
+        grid-template-columns:
+            [full-start] 1fr 
+            [center-start] repeat(8, [col-start] minmax(min-content,1fr) [col-end] ) 
+            [center-end] 1fr [full-end];
+    background-color:$trello-blue-100;
+    color: $color-black;
+    padding: 2rem 1rem;
+    font-size: 1.6rem;
+    justify-items: stretch;
+   
     
-
-    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
-        -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 85%, 50% 100%, 0% 85%, 0 0);
-        clip-path: polygon(50% 0%, 100% 0, 100% 85%, 50% 100%, 0% 85%, 0 0);
-        height: 95vh;
+   
+    &__searchbar input {
+        padding: 1rem 3rem;
+        padding-left: 1rem;
+        min-width: 12rem;
+        max-width: 15vw;
+        outline:none;
+        border:none;
+        border-radius: 10px;
     }
-
-    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),
-            only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
-            only screen and (min-width: 125em) {
-        background-image: linear-gradient(
-            to right bottom,
-            rgba($color-primary-light, 0.8),
-            rgba($color-primary-dark, 0.8)),
-        url(/img/landing-small.jpeg);
+    &__icon {
+        &-1 {
+            font-size: 4rem;
+        }
+        &-2 {
+            font-size: 2rem;
+        }
     }
+    &__nav {
+        grid-column: center-start/center-end;
+        display: grid; 
+        align-items: center;
+        grid-template-columns:
+            [full-start] 1fr 
+            [center-start] repeat(8, [col-start] minmax(min-content,1fr) [col-end] ) 
+            [center-end] 1fr [full-end];
 
     @include respond(phone) {
-        -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 85%, 50% 100%, 0% 85%, 0 0);
-        clip-path: polygon(50% 0%, 100% 0, 100% 85%, 50% 100%, 0% 85%, 0 0);
+        grid-column: 1 / -1;
+        margin: 0 2rem;
     }
+        &-left {
 
-    &__logo-box {
-        position: absolute;
-        top: -2rem;
-        left: -2rem;
+            display:flex;
+            align-items: center;
+            & > * {
+                margin-right: 1rem;
+            }
+
+        }
+        &-right {
+            grid-column: col-start-4 / full-end;
+            display: flex;
+            justify-items: space-between;
+            & > *  {
+                width: 6rem;
+                height: 6rem;
+              
+            
+                &:hover {
+                    font-weight: 600;
+                    background-color: $color-grey-blue;
+                    border-radius: 50%;
+                }
+                &:not(:last-child){
+                    margin-right: 2rem;
+                }
+            }
+        }
     }
-
-    &__logo {
-        height: 17.5rem;
-    }
-
-    
-    &__text-box {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
+    &__home , &__network, &__jobs, &__articles, &__login {
+      
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor:pointer;
+        font-weight: 500;
+        & span {
+            font-size: 1.6rem; 
+        }
     }
 }

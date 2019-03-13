@@ -26,9 +26,11 @@ class Navigation extends Component {
         const guestLinks = (
             <ul className="navigation__list">
                 <li> <Link to = "/posts" className = "navigation__link">Daily Feed</Link> </li>
+                <li> <Link to = "/products" className = "navigation__link" >Products</Link></li>
                 <li> <Link to = "/login" className = "navigation__link">Login</Link> </li>
                 <li> <Link to = "/register" className = "navigation__link">Create Account</Link> </li>
                 <li> <Link to = "/about-us" className = "navigation__link" >About Us</Link></li>
+                
             </ul>   
         )
 
@@ -36,9 +38,9 @@ class Navigation extends Component {
             <ul className="navigation__list">
                 <li> <Link to = "/dashboard" className = "navigation__link">{ `${displayName}'s `} Dashboard</Link> </li>
                 <li> <Link to = "/posts" className = "navigation__link" >Posts</Link> </li>
-                <li> <Link to = "/" className = "navigation__link" >Shop By</Link> </li>
-                <li> <Link to = "/" className = "navigation__link" >Your Account</Link> </li>
-                <li> <Link to = "/" className = "navigation__link" >Contact Us</Link> </li>
+                <li> <Link to = "/products" className = "navigation__link" >Products</Link></li>
+                <li> <Link to = "/cart" className = "navigation__link" >Cart</Link> </li>
+                <li> <Link to = "/orders" className = "navigation__link" >Orders</Link> </li>
                 <li className="">
                 <a
                     href=""

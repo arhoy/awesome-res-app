@@ -5,26 +5,13 @@ import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/postActions';
 
 class Posts extends Component {
-  // state = {
-  //   posts:[]
-  // }
+ 
   componentDidMount() {
 
       this.props.getPosts();
 
   }
  
-  // static getDerivedStateFromProps (props, state) {
-  //   console.log(props.post.posts);
-  //   console.log(state);
-  //   if(props.post.posts !== state.posts) {
-  //   return {posts: props.post.posts}
-  //   }
-  //   return null;
-  // }
-  
-
-
   render() {
   
      const { posts, loading } = this.props.post;

@@ -128,3 +128,19 @@
         transform: translateY(0);
     }
 }
+
+.link {
+    &:link, &:visited, &:hover, &:focus {
+        text-decoration: none;
+    }
+    &__white {
+        color: $fb-grey;
+    }
+    &__black {
+        color: $color-black;
+    }
+    &__product {
+        color: $color-black;
+      
+    }
+}

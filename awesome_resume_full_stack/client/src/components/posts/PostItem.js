@@ -145,10 +145,21 @@ class PostItem extends Component {
                         <div className="PostItem__toolbar" >
 
                                 <button className = "PostItem__ellipses" onClick = { this.onToolBar.bind(this) } >
-                                            <FontAwesomeIcon
-                                                icon="ellipsis-h"
-                                                style = {{color:`${this.findUserLike(post.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
-                                            />
+                                            {
+                                                this.state.showOptions ? 
+                                                <FontAwesomeIcon
+                                                    icon="times-circle"
+                                                    style = {{color:`${this.findUserLike(post.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
+                                                 />
+                                             
+                                                :
+                                                <FontAwesomeIcon
+                                                    icon="ellipsis-h"
+                                                    style = {{color:`${this.findUserLike(post.likes) ? 'rgb(0, 121, 191)' : 'white'}`, cursor:'pointer'}}
+                                                />
+                                               
+                                            }
+                                            
                                 </button>  
                         </div>
                                 

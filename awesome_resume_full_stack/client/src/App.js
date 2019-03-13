@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
@@ -27,12 +28,25 @@ import EditEducationPage from './pages/addEditCredentials/EditEducationPage';
 
 import ProfilePage from './pages/profiles/ProfilePage';
 import PostsPage from './pages/posts/PostsPage';
+import ProductsPage from './pages/products/ProductsPage';
+
+import ProductPage from './pages/products/ProductPage';
+import CartPage from './pages/cart/CartPage';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faThumbsUp, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faThumbsUp, faEllipsisH, faIgloo, faUserFriends,faLaptopCode,faUserAstronaut, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+
+import ThankYouPage from './pages/thankyou/ThankYouPage';
+import UserOrdersPage from './pages/orders/UserOrdersPage';
+import UserOrderPage from './pages/orders/UserOrderPage';
 
 import './sass/main.scss';
-library.add(faEnvelope, faKey, faThumbsUp,faEllipsisH);
+
+
+
+
+
+library.add(faEnvelope, faKey, faThumbsUp,faEllipsisH, faIgloo, faUserFriends, faLaptopCode, faUserAstronaut, faTimesCircle);
 
 
 // Check for token
@@ -71,9 +85,15 @@ class App extends Component {
           <PrivateRoute exact path="/add-education" component={AddEducationPage} />
           <PrivateRoute exact path="/edit-education" component={EditEducationPage} />
           <PrivateRoute exact path="/add-experience" component={AddExperiencePage} />
+          <PrivateRoute exact path="/thank-you" component={ThankYouPage} />
+          <PrivateRoute exact path="/orders" component={UserOrdersPage} />
+          <PrivateRoute exact path="/order/:id" component={UserOrderPage} />
         
           <Route exact path = "/login" component = {LoginPage}/>
           <Route exact path = "/posts" component = {PostsPage}/>
+          <Route exact path = "/products" component = {ProductsPage}/>
+          <Route exact path = "/cart" component = {CartPage}/>
+          <Route exact path = "/products/:id" component = {ProductPage}/>
           <Route exact path = "/profile/:handle" component = {ProfilePage}/>
           <Route exact path = "/register" component = {RegisterPage}/>
           <Route exact path = "/" component = {HomePage}/>

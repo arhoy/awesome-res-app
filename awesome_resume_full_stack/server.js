@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const path = require('path');
 
@@ -24,7 +25,8 @@ mongoose
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
-
+const product = require('./routes/api/product');
+const order = require('./routes/api/order');
 
 // Passport middleware
 app.use(passport.initialize());
@@ -32,10 +34,16 @@ app.use(passport.initialize());
 // Passport Config
 require('./config/passport')(passport);
 
+// for env variables
+require('dotenv').config();
+
+
 // Use Routes
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
+app.use('/api/product', product);
+app.use('/api/order',order);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
